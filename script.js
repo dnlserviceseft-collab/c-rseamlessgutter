@@ -238,7 +238,7 @@
         // Show error message inline
         const errBanner = document.createElement('p');
         errBanner.style.cssText = 'color:#e53e3e;text-align:center;margin-top:12px;font-weight:600;';
-        errBanner.textContent = 'Something went wrong. Please call us at 772-588-4825.';
+        errBanner.textContent = 'DEBUG ' + (err && err.status) + ': ' + (err && (err.text || err.message));
         form.querySelector('.form-foot').after(errBanner);
         setTimeout(() => errBanner.remove(), 6000);
       }
