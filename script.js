@@ -157,7 +157,7 @@
   // EmailJS setup: uses your public key + service/template IDs
   // To activate: sign up free at emailjs.com, create a service + template, paste IDs below
   const EMAILJS_PUBLIC_KEY  = 'YL6pQKcGytcSKVbDlr';   // <-- replace after setup
-  const EMAILJS_SERVICE_ID  = 'Yservice_6mpzznb';   // <-- replace after setup
+  const EMAILJS_SERVICE_ID  = 'service_6mpzznb';   // <-- replace after setup
   const EMAILJS_TEMPLATE_ID = 'template_11vfdu2';  // <-- replace after setup
 
   if(typeof emailjs !== 'undefined'){
