@@ -146,6 +146,15 @@
   lb.querySelector('.lb-prev').addEventListener('click', () => moveLB(-1));
   lb.querySelector('.lb-next').addEventListener('click', () => moveLB(1));
   lb.addEventListener('click', (e) => { if(e.target === lb) closeLB(); });
+  // Touch swipe (arrows are hidden on phones)
+  let touchX = null;
+  lb.addEventListener('touchstart', (e) => { touchX = e.changedTouches[0].clientX; }, {passive:true});
+  lb.addEventListener('touchend', (e) => {
+    if(touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if(Math.abs(dx) > 45) moveLB(dx < 0 ? 1 : -1);
+    touchX = null;
+  }, {passive:true});
   document.addEventListener('keydown', (e) => {
     if(!lb.classList.contains('open')) return;
     if(e.key === 'Escape') closeLB();
@@ -237,10 +246,10 @@
         submitBtn.innerHTML = origHTML;
         // Show error message inline
         const errBanner = document.createElement('p');
-        errBanner.style.cssText = 'color:#e53e3e;text-align:center;margin-top:12px;font-weight:600;';
-        errBanner.textContent = 'DEBUG ' + (err && err.status) + ': ' + (err && (err.text || err.message));
+        errBanner.style.cssText = 'color:#c0492f;text-align:center;margin-top:14px;font-weight:600;';
+        errBanner.innerHTML = 'Sorry — something went wrong sending your request. Please call or text us at <a href="tel:7725884825" style="color:var(--green);font-weight:700;white-space:nowrap">772-588-4825</a>.';
         form.querySelector('.form-foot').after(errBanner);
-        setTimeout(() => errBanner.remove(), 6000);
+        setTimeout(() => errBanner.remove(), 8000);
       }
     });
   }
