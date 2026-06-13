@@ -76,6 +76,9 @@ ul{margin:0;padding:0;list-style:none}
 .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gut)}
 .section{padding-block:clamp(64px,9vw,128px)}
 
+/* Anchor links land below the fixed header instead of behind it */
+section[id], [id]{scroll-margin-top:88px}
+
 /* ---------- Eyebrow / headings ---------- */
 .eyebrow{
   display:inline-flex;align-items:center;gap:10px;
@@ -607,7 +610,7 @@ body { padding-top: 70px; }
   position: fixed;
   bottom: 24px;
   right: 20px;
-  z-index: 9999;
+  z-index: 50;
   background: var(--green, #4CAF50);
   color: #fff;
   border-radius: 50px;
@@ -636,40 +639,110 @@ body { padding-top: 70px; }
   body { padding-bottom: 80px; }
 }
 
-/* ===== MOBILE IMPROVEMENTS ===== */
+/* ===========================================================
+   RESPONSIVE LAYER — tiered for tablet, phone, and small phone
+   =========================================================== */
+
+/* ---------- Tablet & below (≤1024px) — declutter the header ---------- */
+@media (max-width: 1024px){
+  /* The floating phone pill is redundant on touch (top-bar phone + call
+     FAB + burger menu all expose the number). Drop it to free up space. */
+  .header-phone{display:none}
+  .header .wrap{gap:14px}
+  .header-cta{gap:10px}
+}
+
+/* ---------- Phone (≤768px) ---------- */
 @media (max-width: 768px) {
+  /* Header: brand + burger only. "Free Quote" lives in the menu + FAB. */
+  .header-cta .btn{display:none}
+  .header .wrap{min-height:62px}
+  body{padding-top:62px}
+  section[id], [id]{scroll-margin-top:74px}
+  .brand img{height:42px}
+  .brand .bt-1{font-size:17px}
+  .brand .bt-2{font-size:11px;letter-spacing:.16em}
+
+  /* Top bar: keep it lean */
+  .topbar{font-size:13px}
+  .topbar .wrap{gap:10px}
+  .topbar .tb-phone{font-size:14px}
+
   /* Hero */
   .hero { min-height: 100svh; }
-  .hero .wrap { padding-block: 100px 60px; }
+  .hero .wrap { padding-block: 90px 56px; }
   .hero-inner { max-width: 100%; }
   .hero h1 { font-size: clamp(28px, 8vw, 48px); }
   .hero .sub { font-size: 16px; }
-  .hero-cta { flex-direction: column; align-items: stretch; }
-  .hero-cta .btn { text-align: center; justify-content: center; }
-  .hero-float { flex-wrap: wrap; gap: 12px; padding: 16px; }
-  .hero-float .div { display: none; }
+  .hero-cta { flex-direction: column; align-items: stretch; gap:12px; }
+  .hero-cta .btn { text-align: center; justify-content: center; width:100%; }
+  .hero .hero-phone{margin-top:26px !important}
 
   /* Sections */
   .section { padding-block: 60px; }
   .head-center h2 { font-size: clamp(24px, 6vw, 36px); }
   .title { font-size: clamp(24px, 6vw, 36px); }
 
-  /* About counters */
-  .counters { grid-template-columns: repeat(3,1fr); gap: 12px; }
-  .counter b { font-size: 28px; }
+  /* About — stack the floating images so nothing overlaps awkwardly */
+  .about-media{max-width:none;margin-inline:auto}
+  .about-media .ph.small{position:static;width:100%;margin-top:14px;border-width:0}
+  .about-media .exp-badge{left:auto;right:10px;top:10px}
+  .counters { gap: 10px; }
+  .counter { min-width:0; padding:14px 12px; }
+  .counter b { font-size: 26px; }
 
   /* Service cards */
   .svc-card { padding: 28px 20px; }
+  .svc-card h3{font-size:21px}
 
   /* Gallery */
   .gal-grid { columns: 1; }
 
-  /* Contact form */
-  .form-card { padding: 28px 20px; }
+  /* Contact */
+  .form-card { padding: 26px 18px; }
   .ci-card { padding: 16px; }
+  .contact-info .ci-card b{font-size:19px}
 
   /* Footer */
+  .footer .f-phone{font-size:23px}
   .f-bottom { flex-direction: column; gap: 8px; text-align: center; font-size: 13px; }
+
+  /* Buttons sit comfortably under thumbs */
+  .btn{padding:15px 24px}
+  .btn--lg{padding:17px 28px}
+}
+
+/* ---------- Small phone (≤480px) ---------- */
+@media (max-width: 480px){
+  :root{--gut:18px}
+
+  /* Top bar: just the phone number, centered */
+  .topbar .tb-left{display:none}
+  .topbar .wrap{justify-content:center}
+
+  .brand{gap:10px}
+  .brand img{height:38px}
+
+  .hero .badge{font-size:11px;padding:8px 13px}
+  .hero h1{font-size:clamp(26px,9vw,40px)}
+
+  /* About counters: 3 across gets too tight — go 1×3 stacked pairs */
+  .counters{flex-direction:column}
+  .counter{width:100%}
+
+  /* Section heads a touch tighter */
+  .head-center .lead, .lead{font-size:16px}
+
+  /* Lightbox fills the small screen */
+  .lightbox{padding:16px}
+  .lightbox .lb-close{top:12px;right:14px;width:44px;height:44px}
+}
+
+/* ---------- Landscape phones: don't force a full-height hero ---------- */
+@media (max-height: 560px) and (orientation: landscape){
+  .hero{min-height:auto}
+  .hero .wrap{padding-block:84px 48px}
+  .scroll-cue{display:none}
 }
 
 /* ===== FORM SUCCESS MESSAGE ===== */
